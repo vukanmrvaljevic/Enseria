@@ -25,4 +25,4 @@ yarn-error.log*
 #api keys
 /.env
 
-.apikey.js
+apikey.js
