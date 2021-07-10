@@ -1,64 +1,102 @@
 import React, { useEffect, useState } from "react"
-import "./App.css"
-import Movie from "./components/Movie"
-
-const API_KEY = process.env.REACT_APP_API_KEY
-
-const FEATURED_API = `https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${API_KEY}&language=en-US&page=1`
-const SEARCH_API = `https://api.themoviedb.org/3/search/movie?&api_key=${API_KEY}&query=`
+import fire from "./utils/fire"
+import Authentication from "./components/Authentication"
+import "./styles/login.css"
+import Hero from "./components/Hero"
 
 function App() {
-  const [movies, setMovies] = useState([])
-  const [searchTerm, setSearchTerm] = useState("")
+  const [user, setUser] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState(" ")
+  const [emailError, setEmailError] = useState(" ")
+  const [passwordError, setPasswordError] = useState(" ")
+  const [hasAccount, setHasAccount] = useState(false)
 
-  useEffect(() => {
-    getMovies(FEATURED_API)
-  }, [])
+  const clearInputs = () => {
+    setEmail("")
+    setPassword("")
+  }
 
-  const getMovies = (API) => {
-    fetch(API)
-      .then((res) => res.json())
-      .then((data) => {
-        setMovies(data.results)
+  const clearErrors = () => {
+    setEmailError("")
+    setPasswordError("")
+  }
+
+  const handleLogin = () => {
+    fire
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .catch((err) => {
+        switch (err.code) {
+          case "auth/invalid-email":
+          case "auth/user-disabled":
+          case "auth/user-not-found":
+            setEmailError(err.message)
+            break
+          case "auth/wrong-password":
+            setPasswordError(err.message)
+            break
+        }
       })
   }
 
-  const handleOnSubmit = (e) => {
-    e.preventDefault()
-    if (searchTerm) {
-      fetch(SEARCH_API + searchTerm)
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data)
-          setMovies(data.results)
-        })
-
-      setSearchTerm("")
-    }
+  const handleSignup = () => {
+    clearErrors()
+    fire
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .catch((err) => {
+        switch (err.code) {
+          case "auth/email-already-in-use":
+          case "auth/invalid-email":
+            setEmailError(err.message)
+            break
+          case "auth/wrong-password":
+            setPasswordError(err.message)
+            break
+        }
+      })
   }
 
-  const handleOnChange = (e) => {
-    setSearchTerm(e.target.value)
+  const handleLogout = () => {
+    fire.auth().signOut()
   }
+
+  const authListener = () => {
+    fire.auth().onAuthStateChanged((user) => {
+      if (user) {
+        clearInputs()
+        setUser(user)
+      } else {
+        setUser("")
+      }
+    })
+  }
+
+  useEffect(() => {
+    authListener()
+  }, [])
 
   return (
-    <>
-      <header>
-        <form onSubmit={handleOnSubmit}>
-          <input
-            className="search"
-            type="text"
-            placeholder="Search..."
-            value={searchTerm}
-            onChange={handleOnChange}
-          />
-        </form>
-      </header>
-      <div className="movie-container">
-        {movies.length > 0 &&
-          movies.map((movie) => <Movie key={movie.id} {...movie} />)}
-      </div>
-    </>
+    <div>
+      {" "}
+      {user ? (
+        <Hero handleLogout={handleLogout} />
+      ) : (
+        <Authentication
+          email={email}
+          setEmail={setEmail}
+          password={password}
+          setPassword={setPassword}
+          handleLogin={handleLogin}
+          handleSignup={handleSignup}
+          hasAccount={hasAccount}
+          setHasAccount={setHasAccount}
+          emailError={emailError}
+          passwordError={passwordError}
+        />
+      )}
+    </div>
   )
 }
 
