@@ -1,0 +1,11 @@
+import React, { useEffect, useState } from "react"
+import "./App.css"
+import Movie from "./components/Movie"
+// import API_KEY from "./apikey"
+
+const API_KEY = process.env.REACT_APP_API_KEY
+
+console.log(process.env)
+
+// const FEATURED_API = `https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${api_key}&language=en-US&page=1`
+// const SEARCH_API = `https://api.themoviedb.org/3/search/movie?&api_key=${api_key}&query=`
