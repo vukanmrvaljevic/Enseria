@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -35,4 +35,112 @@
   to {
     transform: rotate(360deg);
   }
+} */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,200&display=swap');
+
+* {
+    box-sizing: border-box;
+}
+
+body{
+    background-color: rgba(6, 32, 42);
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+}
+
+.root{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+header{
+    background-color: rgb(15, 77, 102);
+    display: flex;
+    padding: 1rem;
+    justify-content: flex-end;
+}
+
+.search{
+    background-color: transparent;
+    border: 2px solid rgb(116, 116, 116);
+    border-radius: 50px;
+    color: whitesmoke;
+    font-family: inherit;
+    font-size: 1.2rem;
+    padding: 0.5rem 1.5rem;
+}
+
+.movie-container{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.movie{
+    background-color: rgb(15, 77, 102);
+    border-radius: 3px;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    position: relative;
+    margin: 1rem;
+    width: 300px;
+}
+
+.movie img{
+    object-fit: cover;
+    height: 450px;
+    max-width: 100%;
+}
+
+.movie-info {
+    display: flex;
+    padding: 1.5rem;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+.movie-info h3{
+    margin:0;
+}
+
+.movie-over{
+    background-color: rgb(116, 116, 116);
+    color: whitesmoke;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    box-shadow: 0 -3px 5px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    padding: 1rem;
+    bottom:0;
+    left:0;
+    right:0;
+    overflow: auto;
+    max-height: 100%;
+    transform:  translateY(102%);
+    transition: transform 0.3s ease-in-out;
+}
+
+.movie:hover .movie-over {
+    transform: translateX(0%);
+}
+
+.tag {
+    background-color: rgba(6, 32, 42);
+    padding: 0.2rem;
+    font-weight : bold;
+}
+
+.tag.green{
+    color: green;
+}
+
+.tag.orange{
+    color: orange;
+}
+
+.tag.red{
+    color:red
 }
