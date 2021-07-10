@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react"
 import "./App.css"
 import Movie from "./components/Movie"
-import api_key from "./apikey"
+// import API_KEY from "./apikey"
 
-// const API_KEY = process.env.MOVIES_APP_API_KEY
-// console.log(api_key) //API KEYS and searches
+const API_KEY = process.env.REACT_APP_API_KEY
 
-// const FEATURED_API =
-//   "https://api.themoviedb.org/3/movie/popular?api_key=9fb74e1fd6602765bd6909ac7967947d&language=en-US&page=1"
-const FEATURED_API = `https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${api_key}&language=en-US&page=1`
-// const IMG_API = "https://image.tmdb.org/t/p/w1280"
-const SEARCH_API = `https://api.themoviedb.org/3/search/movie?&api_key=${api_key}&query=`
+console.log(process.env)
+
+// const FEATURED_API = `https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${api_key}&language=en-US&page=1`
+// const SEARCH_API = `https://api.themoviedb.org/3/search/movie?&api_key=${api_key}&query=`
+const FEATURED_API = `https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${API_KEY}&language=en-US&page=1`
+const SEARCH_API = `https://api.themoviedb.org/3/search/movie?&api_key=${API_KEY}&query=`
 
 function App() {
   const [movies, setMovies] = useState([])
